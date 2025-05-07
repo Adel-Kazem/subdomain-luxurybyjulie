@@ -5,8 +5,8 @@ $outputFile = 'Components_content.txt';
 
 // Files to exclude
 $excludeFiles = [
-    'products.js',
-    'categories.js',
+//    'products.js',
+//    'categories.js',
     // Add more files to exclude as needed
 ];
 
