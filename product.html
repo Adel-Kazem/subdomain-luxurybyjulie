@@ -65,6 +65,8 @@
 <!-- SVG Sprite Definitions -->
 <div x-data="svgSprites" x-html="template"></div>
 
+
+
 <!-- Navigation -->
 <div x-data="siteHeader({ activeLink: 'shop' })" x-html="template"></div>
 
@@ -224,8 +226,14 @@
                     <div class="flex items-center gap-1 mb-6" x-show="product.rating">
                         <div class="flex">
                             <template x-for="i in 5" :key="i">
-                                <svg class="h-5 w-5" :class="i <= Math.floor(product.rating || 0) ? 'text-yellow-400' : 'text-zinc-300'">
-                                    <use :xlink:href="i <= Math.floor(product.rating || 0) ? '#icon-star-filled' : '#icon-star'"></use>
+                                <svg class="h-5 w-5" :class="i <= Math.floor(product.rating || 0) ? 'text-yellow-400' : 'text-zinc-300'"
+                                     viewBox="0 0 24 24"
+                                     :fill="i <= Math.floor(product.rating || 0) ? 'currentColor' : 'none'"
+                                     stroke="currentColor"
+                                     stroke-width="1.5"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                                 </svg>
                             </template>
                         </div>
