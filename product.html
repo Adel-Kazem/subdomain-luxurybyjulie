@@ -8,78 +8,65 @@
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Tailwind Configuration -->
+    <script src="js/tailwind.config.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
     <!-- Alpine.js via CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Load existing JavaScript files -->
-    <script src="js/products.js"></script>
-    <script src="js/categories.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/product-page.js"></script>
+    <script src="js/products.js?v=2"></script>
+    <script src="js/categories.js?v=2"></script>
+    <script src="js/app.js?v=2"></script>
+    <script src="js/components.js?v=2"></script>
+    <script src="js/product-page.js?v=2"></script>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Syne', sans-serif;
-        }
-
-        .custom-gradient {
-            background: linear-gradient(135deg, #f9a8d4 0%, #d8b4fe 100%);
-        }
-
-        /* Custom scrollbar styles */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        /* Product image viewer */
-        .zoom-container {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .zoom-container img {
-            transition: transform 0.3s ease;
-        }
-
-        .zoom-container:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Quantity input styling */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-    </style>
 </head>
 
 <body class="bg-zinc-50" x-data="{ scrollTop: false }" @scroll.window="scrollTop = window.pageYOffset > 100">
 <!-- SVG Sprite Definitions -->
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <!-- Shopping Bag Icon -->
+    <symbol id="icon-shopping-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+    </symbol>
+
+    <!-- Truck Icon -->
+    <symbol id="icon-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+    </symbol>
+
+    <!-- Box Icon -->
+    <symbol id="icon-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </symbol>
+
+    <!-- Chevron Left Icon -->
+    <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+    </symbol>
+
+    <!-- Chevron Right Icon -->
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </symbol>
+</svg>
+<!-- SVG Sprite Definitions -->
 <div x-data="svgSprites" x-html="template"></div>
 
 <!-- Navigation -->
-<div x-data="siteHeader({ activeLink: 'home' })" x-html="template"></div>
+<div x-data="siteHeader({ activeLink: 'shop' })" x-html="template"></div>
 
 <!-- Breadcrumb -->
 <div class="bg-white pt-28 pb-4 px-6 border-b border-zinc-100">
@@ -114,125 +101,99 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
                 <!-- Product Image Gallery -->
                 <div class="lg:col-span-3 p-6 md:p-8" x-data="productViewer($store.productData.currentProduct)">
-                    <!-- Main Product Image -->
-                    <div class="mb-4 bg-zinc-50 rounded-xl overflow-hidden zoom-container"
-                         @mouseenter="mouseEnter($event)"
-                         @mouseleave="mouseLeave()"
-                         @mousemove="mouseMove($event)"
-                         @touchstart="touchStart($event)"
-                         @touchmove="touchMove($event)"
-                         @touchend="touchEnd()">
+                    <!-- Main Product Image - UPDATED FOR CONSISTENT DIMENSIONS -->
+                    <div class="mb-4 bg-zinc-50 rounded-xl overflow-hidden zoom-container">
                         <img
                                 id="main-product-image"
                                 x-ref="mainImage"
                                 :src="getSelectedImage()"
                                 :alt="product.name"
-                                class="w-full h-auto object-contain"
+                                class="w-full h-80 md:h-96 object-contain"
                                 :style="imgStyle"
-                                @error="handleImageError($event)">
+                                @error="handleImageError($event)"
+                                @mouseenter="mouseEnter($event)"
+                                @mouseleave="mouseLeave()"
+                                @mousemove="mouseMove($event)"
+                                @touchstart="touchStart($event)"
+                                @touchmove="touchMove($event)"
+                                @touchend="touchEnd()">
                     </div>
 
-                    <!-- Image Thumbnails -->
+                    <!-- Image Thumbnails - UPDATED FOR BETTER SCROLLING AND CONSISTENT DIMENSIONS -->
                     <div class="relative" x-show="hasThumbnails()">
-                        <div class="flex items-center">
-                            <button
-                                    id="thumbnails-prev"
-                                    class="flex-shrink-0 bg-white rounded-full p-2 shadow-md hover:bg-zinc-100 transition-colors z-10"
-                                    x-show="!isScrollLeftEnd"
-                                    @click="scrollThumbnails('left')">
-                                <svg class="h-4 w-4">
-                                    <use xlink:href="#icon-chevron-left"></use>
-                                </svg>
-                            </button>
+                        <div class="flex overflow-x-auto space-x-2 py-2 hide-scrollbar" x-ref="thumbnailsContainer" @scroll="checkScrollPosition()">
+                            <!-- Product Images Thumbnails -->
+                            <template x-for="(image, index) in product.images || []" :key="'img-'+index">
+                                <div
+                                        @click="selectImage(image)"
+                                        class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
+                                        :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'">
+                                    <img
+                                            :src="image"
+                                            :alt="`${product.name} - Thumbnail ${index + 1}`"
+                                            class="w-full h-full object-cover"
+                                            @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
+                                </div>
+                            </template>
 
-                            <div
-                                    x-ref="thumbnailsContainer"
-                                    class="flex overflow-x-auto px-2 py-4 gap-3 scrollbar-hide"
-                                    @scroll="checkScrollPosition()">
-
-                                <!-- Product Images Thumbnails -->
-                                <template x-for="(image, index) in product.images || []" :key="'img-'+index">
-                                    <button
-                                            class="flex-shrink-0 w-16 h-16 border-2 rounded-lg overflow-hidden"
-                                            :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
-                                            @click="selectImage(image)">
-                                        <img
-                                                :src="image"
-                                                :alt="`${product.name} - Thumbnail ${index + 1}`"
-                                                class="w-full h-full object-cover"
-                                                @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
-                                    </button>
-                                </template>
-
-                                <!-- Option Images Thumbnails -->
-                                <template x-if="product.option_images">
-                                    <template x-for="(options, optionType) in product.option_images" :key="optionType">
-                                        <template x-for="(images, optionValue) in options" :key="optionValue">
-                                            <template x-for="(image, index) in images" :key="'opt-'+optionType+'-'+optionValue+'-'+index">
-                                                <button
-                                                        class="flex-shrink-0 w-16 h-16 border-2 rounded-lg overflow-hidden"
-                                                        :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
-                                                        @click="selectImage(image)"
-                                                        data-thumbnail-type="option"
-                                                        :data-option-type="optionType"
-                                                        :data-option-value="optionValue">
-                                                    <img
-                                                            :src="image"
-                                                            :alt="`${product.name} - ${optionType}: ${optionValue}`"
-                                                            class="w-full h-full object-cover"
-                                                            @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
-                                                </button>
-                                            </template>
+                            <!-- Option Images Thumbnails -->
+                            <template x-if="product.option_images">
+                                <template x-for="(options, optionType) in product.option_images" :key="optionType">
+                                    <template x-for="(images, optionValue) in options" :key="optionValue">
+                                        <template x-for="(image, index) in images" :key="'opt-'+optionType+'-'+optionValue+'-'+index">
+                                            <div
+                                                    @click="selectImage(image)"
+                                                    class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
+                                                    :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
+                                                    data-thumbnail-type="option"
+                                                    :data-option-type="optionType"
+                                                    :data-option-value="optionValue">
+                                                <img
+                                                        :src="image"
+                                                        :alt="`${product.name} - ${optionType}: ${optionValue}`"
+                                                        class="w-full h-full object-cover"
+                                                        @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
+                                            </div>
                                         </template>
                                     </template>
                                 </template>
+                            </template>
 
-                                <!-- Variant Images Thumbnails -->
-                                <template x-if="product.variant_images">
-                                    <template x-for="(imageData, variantKey) in product.variant_images" :key="variantKey">
-                                        <template x-if="Array.isArray(imageData)">
-                                            <template x-for="(image, index) in imageData" :key="'var-'+variantKey+'-'+index">
-                                                <button
-                                                        class="flex-shrink-0 w-16 h-16 border-2 rounded-lg overflow-hidden"
-                                                        :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
-                                                        @click="selectImage(image)"
-                                                        data-thumbnail-type="variant"
-                                                        :data-variant-key="variantKey">
-                                                    <img
-                                                            :src="image"
-                                                            :alt="`${product.name} - ${formatVariantName(variantKey)}`"
-                                                            class="w-full h-full object-cover"
-                                                            @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
-                                                </button>
-                                            </template>
-                                        </template>
-                                        <template x-if="!Array.isArray(imageData)">
-                                            <button
-                                                    class="flex-shrink-0 w-16 h-16 border-2 rounded-lg overflow-hidden"
-                                                    :class="selectedImage === imageData ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
-                                                    @click="selectImage(imageData)"
+                            <!-- Variant Images Thumbnails -->
+                            <template x-if="product.variant_images">
+                                <template x-for="(imageData, variantKey) in product.variant_images" :key="variantKey">
+                                    <template x-if="Array.isArray(imageData)">
+                                        <template x-for="(image, index) in imageData" :key="'var-'+variantKey+'-'+index">
+                                            <div
+                                                    @click="selectImage(image)"
+                                                    class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
+                                                    :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
                                                     data-thumbnail-type="variant"
                                                     :data-variant-key="variantKey">
                                                 <img
-                                                        :src="imageData"
+                                                        :src="image"
                                                         :alt="`${product.name} - ${formatVariantName(variantKey)}`"
                                                         class="w-full h-full object-cover"
                                                         @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
-                                            </button>
+                                            </div>
                                         </template>
                                     </template>
+                                    <template x-if="!Array.isArray(imageData)">
+                                        <div
+                                                @click="selectImage(imageData)"
+                                                class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
+                                                :class="selectedImage === imageData ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
+                                                data-thumbnail-type="variant"
+                                                :data-variant-key="variantKey">
+                                            <img
+                                                    :src="imageData"
+                                                    :alt="`${product.name} - ${formatVariantName(variantKey)}`"
+                                                    class="w-full h-full object-cover"
+                                                    @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
+                                        </div>
+                                    </template>
                                 </template>
-                            </div>
-
-                            <button
-                                    id="thumbnails-next"
-                                    class="flex-shrink-0 bg-white rounded-full p-2 shadow-md hover:bg-zinc-100 transition-colors z-10"
-                                    x-show="!isScrollRightEnd"
-                                    @click="scrollThumbnails('right')">
-                                <svg class="h-4 w-4">
-                                    <use xlink:href="#icon-chevron-right"></use>
-                                </svg>
-                            </button>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -557,77 +518,44 @@
         </div>
 
         <!-- Related Products -->
-        <div class="mt-16" x-data="{
-                relatedProducts: [],
-                init() {
-                    const productId = $store.productData.currentProduct?.id;
-                    if (productId && PRODUCTS) {
-                        // Get related products from the current product
-                        const relatedIds = $store.productData.currentProduct.relatedProducts || [];
-                        this.relatedProducts = PRODUCTS.filter(p => relatedIds.includes(p.id)).slice(0, 4);
-
-                        // If not enough related products, add some featured products
-                        if (this.relatedProducts.length < 4) {
-                            const featuredProducts = PRODUCTS.filter(p => p.isFeatured && p.id !== productId && !relatedIds.includes(p.id));
-                            this.relatedProducts = [...this.relatedProducts, ...featuredProducts].slice(0, 4);
-                        }
-                    }
-                }
-            }">
-            <h2 id="related-products-heading" class="text-2xl font-bold mb-8">You May Also Like</h2>
-
+        <div class="mt-16"
+             x-data="relatedProducts({
+       productId: $store.productData.currentProduct?.id,
+       maxProducts: 4,
+       title: 'You May Also Like'
+     })">
+            <h2 id="related-products-heading" class="text-2xl font-bold mb-8" x-text="title"></h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <template x-for="product in relatedProducts" :key="product.id">
+                <template x-for="product in products" :key="product.id">
                     <article class="group bg-white rounded-xl overflow-hidden shadow-sm">
                         <a :href="'product.html?slug=' + product.slug">
-                            <div class="aspect-[5/6] overflow-hidden bg-zinc-100 relative">
-                                <img
-                                        :src="product.images[0]"
-                                        :alt="product.name"
-                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        @error="$event.target.src = 'https://via.placeholder.com/400x500?text=No+Image'">
-
-                                <!-- Product Badges -->
+                            <div class="overflow-hidden bg-zinc-100 relative h-60 flex items-center justify-center">
+                                <img :src="product.images[0]" :alt="product.name"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                     @error="$event.target.src = 'https://via.placeholder.com/400x500?text=No+Image'">
                                 <div class="absolute top-3 left-3 flex flex-col gap-2">
-                                        <span
-                                                x-show="product.isNew"
-                                                class="bg-pink-500 text-white text-xs px-2 py-1 rounded">
-                                            New
-                                        </span>
-                                    <span
-                                            x-show="product.isOnSale"
-                                            class="bg-emerald-500 text-white text-xs px-2 py-1 rounded">
-                                            Sale
-                                        </span>
+                                    <span x-show="product.isNew" class="bg-pink-500 text-white text-xs px-2 py-1 rounded">New</span>
+                                    <span x-show="product.isOnSale" class="bg-emerald-500 text-white text-xs px-2 py-1 rounded">Sale</span>
                                 </div>
                             </div>
                         </a>
-
                         <div class="p-4">
                             <div class="flex justify-between items-start mb-2">
                                 <div>
                                     <h3 class="text-lg font-semibold" x-text="product.name"></h3>
-                                    <p class="text-zinc-600" x-text="product.brand || 'LuxuryByJulie'"></p>
+                                    <p class="text-zinc-600" x-text="product.brand || 'YourBrand'"></p>
                                 </div>
                                 <div class="text-right">
-                                        <span
-                                                x-show="product.salePrice"
-                                                class="text-pink-500 font-bold"
-                                                x-text="'$' + product.salePrice.toFixed(2)"></span>
-                                    <span
-                                            x-show="product.salePrice"
-                                            class="text-zinc-400 line-through text-sm ml-1"
-                                            x-text="'$' + product.base_price.toFixed(2)"></span>
-                                    <span
-                                            x-show="!product.salePrice"
-                                            class="text-lg font-bold"
-                                            x-text="'$' + (product.base_price || product.price).toFixed(2)"></span>
+              <span x-show="product.salePrice" class="text-pink-500 font-bold"
+                    x-text="'$' + product.salePrice.toFixed(2)"></span>
+                                    <span x-show="product.salePrice" class="text-zinc-400 line-through text-sm ml-1"
+                                          x-text="'$' + product.base_price.toFixed(2)"></span>
+                                    <span x-show="!product.salePrice" class="text-lg font-bold"
+                                          x-text="'$' + (product.base_price || product.price).toFixed(2)"></span>
                                 </div>
                             </div>
-
-                            <a
-                                    :href="'product.html?slug=' + product.slug"
-                                    class="mt-2 block w-full text-center bg-zinc-100 py-2 rounded-lg hover:bg-zinc-200 transition-colors">
+                            <a :href="'product.html?slug=' + product.slug"
+                               class="mt-2 block w-full text-center bg-zinc-100 py-2 rounded-lg hover:bg-zinc-200 transition-colors">
                                 View Details
                             </a>
                         </div>
@@ -635,10 +563,12 @@
                 </template>
             </div>
         </div>
+
     </div>
 
     <!-- Cart notification -->
     <div
+            x-cloak
             class="fixed bottom-24 right-4 bg-black text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300"
             x-show="$store.ui.cartNotificationVisible"
             x-transition:enter="transition ease-out duration-300"
@@ -653,7 +583,6 @@
 
 <!-- Footer -->
 <div x-data="siteFooter" x-html="template"></div>
-
 <div x-data="floatingButtons" x-html="template"></div>
 </body>
 </html>

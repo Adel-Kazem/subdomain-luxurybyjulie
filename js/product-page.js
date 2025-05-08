@@ -602,7 +602,31 @@ document.addEventListener('alpine:init', () => {
             },
 
             handleImageError(event) {
-                event.target.src = "https://via.placeholder.com/400x300?text=Image+Not+Available";
+                const img = event.target;
+                const width = img.width || 400;
+                const height = img.height || 300;
+
+                // Create SVG fallback as a data URL
+                const svgContent = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+                      <rect width="100%" height="100%" fill="#f3f4f6"/>
+                      <svg x="${width/2 - 24}" y="${height/2 - 24}" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9.5" cy="9.5" r="1.5" fill="#9ca3af"/>
+                      </svg>
+                      <text x="50%" y="70%" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#6b7280">Image Not Available</text>
+                    </svg>
+                  `;
+
+                // Convert SVG to a data URI
+                const encodedSVG = encodeURIComponent(svgContent);
+                const dataURI = `data:image/svg+xml;charset=UTF-8,${encodedSVG}`;
+
+                // Replace the image source with the SVG data URI
+                img.src = dataURI;
+
+                // Prevent further error handling
+                img.onerror = null;
             }
         };
     });
@@ -663,4 +687,66 @@ document.addEventListener('alpine:init', () => {
             }
         };
     });
+
+    // Related Products Component
+    Alpine.data('relatedProducts', function(config = {}) {
+        return {
+            products: [],
+            currentProductId: null,
+            maxProducts: config.maxProducts || 4,
+            title: config.title || 'You May Also Like',
+            allProducts: [],
+
+            init() {
+                // Get reference to all products
+                this.allProducts = typeof PRODUCTS !== 'undefined' ? PRODUCTS : [];
+
+                // Get current product ID from store or config
+                this.currentProductId = config.productId ||
+                    (Alpine.store('productData')?.currentProduct?.id);
+
+                if (this.currentProductId && this.allProducts.length > 0) {
+                    this.loadRelatedProducts();
+                }
+            },
+
+            loadRelatedProducts() {
+                // Find current product
+                const currentProduct = this.allProducts.find(p => p.id === this.currentProductId);
+
+                if (!currentProduct) return;
+
+                // Get explicitly defined related products
+                const relatedIds = currentProduct.relatedProducts || [];
+                this.products = this.allProducts.filter(p => relatedIds.includes(p.id))
+                    .slice(0, this.maxProducts);
+
+                // If not enough related products, add featured products as fallback
+                if (this.products.length < this.maxProducts) {
+                    const featuredProducts = this.allProducts.filter(p =>
+                        p.isFeatured &&
+                        p.id !== this.currentProductId &&
+                        !relatedIds.includes(p.id)
+                    );
+
+                    this.products = [...this.products, ...featuredProducts]
+                        .slice(0, this.maxProducts);
+                }
+
+                // If still not enough, just add random products
+                if (this.products.length < this.maxProducts && this.allProducts.length > this.maxProducts) {
+                    const randomProducts = this.allProducts.filter(p =>
+                        p.id !== this.currentProductId &&
+                        !this.products.some(rp => rp.id === p.id)
+                    );
+
+                    this.products = [
+                        ...this.products,
+                        ...randomProducts.slice(0, this.maxProducts - this.products.length)
+                    ];
+                }
+            }
+        };
+    });
+
 });

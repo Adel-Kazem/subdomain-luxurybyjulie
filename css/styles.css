@@ -1,0 +1,61 @@
+/* Custom styles for LuxuryByJulie */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Raleway:wght@300;500&family=Syne:wght@400;500;600;700;800&display=swap');
+
+/* For the brush text style with underline effect */
+.brush-text {
+    position: relative;
+}
+.brush-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+}
+
+/* For the rotation effect on hover */
+.rotate-on-hover:hover {
+    transform: rotate(-2deg);
+}
+
+/* Base font for the site */
+body {
+    font-family: 'Syne', sans-serif;
+}
+
+/* Custom gradient background */
+.custom-gradient {
+    background: linear-gradient(135deg, #f9a8d4 0%, #d8b4fe 100%);
+}
+
+/* Animation for fade-in effect */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
