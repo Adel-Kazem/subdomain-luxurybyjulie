@@ -134,7 +134,7 @@
                                             :src="image"
                                             :alt="`${product.name} - Thumbnail ${index + 1}`"
                                             class="w-full h-full object-cover"
-                                            @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
+                                            @error="handleImageError($event)">
                                 </div>
                             </template>
 
@@ -154,7 +154,7 @@
                                                         :src="image"
                                                         :alt="`${product.name} - ${optionType}: ${optionValue}`"
                                                         class="w-full h-full object-cover"
-                                                        @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
+                                                        @error="handleImageError($event)">
                                             </div>
                                         </template>
                                     </template>
@@ -176,7 +176,7 @@
                                                         :src="image"
                                                         :alt="`${product.name} - ${formatVariantName(variantKey)}`"
                                                         class="w-full h-full object-cover"
-                                                        @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
+                                                        @error="handleImageError($event)">
                                             </div>
                                         </template>
                                     </template>
@@ -191,7 +191,7 @@
                                                     :src="imageData"
                                                     :alt="`${product.name} - ${formatVariantName(variantKey)}`"
                                                     class="w-full h-full object-cover"
-                                                    @error="$event.target.src = 'https://via.placeholder.com/100?text=No+Image'">
+                                                    @error="handleImageError($event)">
                                         </div>
                                     </template>
                                 </template>
