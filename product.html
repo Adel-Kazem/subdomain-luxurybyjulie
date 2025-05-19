@@ -4,31 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details | LuxuryByJulie</title>
-
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- Tailwind Configuration -->
     <script src="js/tailwind.config.js"></script>
-
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/styles.css">
-
     <!-- Alpine.js via CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <!-- Load existing JavaScript files -->
     <script src="js/products.js?v=2"></script>
     <script src="js/categories.js?v=2"></script>
     <script src="js/app.js?v=2"></script>
     <script src="js/components.js?v=2"></script>
     <script src="js/product-page.js?v=2"></script>
-
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 </head>
-
 <body class="bg-zinc-50" x-data="{ scrollTop: false }" @scroll.window="scrollTop = window.pageYOffset > 100">
 <!-- SVG Sprite Definitions -->
 <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
@@ -36,7 +28,6 @@
     <symbol id="icon-shopping-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
     </symbol>
-
     <!-- Truck Icon -->
     <symbol id="icon-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <rect x="1" y="3" width="15" height="13"></rect>
@@ -44,19 +35,16 @@
         <circle cx="5.5" cy="18.5" r="2.5"></circle>
         <circle cx="18.5" cy="18.5" r="2.5"></circle>
     </symbol>
-
     <!-- Box Icon -->
     <symbol id="icon-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
         <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
         <line x1="12" y1="22.08" x2="12" y2="12"></line>
     </symbol>
-
     <!-- Chevron Left Icon -->
     <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"></polyline>
     </symbol>
-
     <!-- Chevron Right Icon -->
     <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"></polyline>
@@ -64,134 +52,75 @@
 </svg>
 <!-- SVG Sprite Definitions -->
 <div x-data="svgSprites" x-html="template"></div>
-
-
-
 <!-- Navigation -->
 <div x-data="siteHeader({ activeLink: 'shop' })" x-html="template"></div>
-
 <!-- Breadcrumb -->
 <div class="bg-white pt-28 pb-4 px-6 border-b border-zinc-100">
     <div class="max-w-7xl mx-auto">
         <div class="flex items-center space-x-2 text-sm text-zinc-500">
-            <a href="index.html" id="breadcrumb-home" class="hover:text-pink-500">Home</a>
+            <a href="index.html" id="breadcrumb-home" class="hover:text-primary">Home</a>
             <span>/</span>
-            <a href="products.html" id="breadcrumb-shop" class="hover:text-pink-500">Shop</a>
+            <a href="products.html" id="breadcrumb-shop" class="hover:text-primary">Shop</a>
             <span>/</span>
             <span id="breadcrumb-product" class="text-zinc-900" x-text="$store.productData.currentProduct?.name || 'Product Details'" x-init="$store.productData.init()"></span>
         </div>
     </div>
 </div>
-
 <!-- Product Details -->
 <main class="py-12 px-6" x-data="{ activeTab: 'description' }">
     <div class="max-w-7xl mx-auto">
         <!-- Back to Products -->
         <div class="mb-8">
-            <a href="products.html" id="back-to-products" class="inline-flex items-center text-zinc-600 hover:text-pink-500">
+            <a href="products.html" id="back-to-products" class="inline-flex items-center text-zinc-600 hover:text-primary">
                 <svg class="h-4 w-4 mr-2">
                     <use xlink:href="#icon-chevron-left"></use>
                 </svg>
                 Back to Products
             </a>
         </div>
-
         <!-- Product Information -->
-        <div
-                class="bg-white rounded-xl shadow-sm overflow-hidden"
-                x-data="productDetail({ product: $store.productData.currentProduct })">
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden" x-data="productDetail({ product: $store.productData.currentProduct })">
             <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
                 <!-- Product Image Gallery -->
                 <div class="lg:col-span-3 p-6 md:p-8" x-data="productViewer($store.productData.currentProduct)">
                     <!-- Main Product Image - UPDATED FOR CONSISTENT DIMENSIONS -->
                     <div class="mb-4 bg-zinc-50 rounded-xl overflow-hidden zoom-container">
-                        <img
-                                id="main-product-image"
-                                x-ref="mainImage"
-                                :src="getSelectedImage()"
-                                :alt="product.name"
-                                class="w-full h-80 md:h-96 object-contain"
-                                :style="imgStyle"
-                                @error="handleImageError($event)"
-                                @mouseenter="mouseEnter($event)"
-                                @mouseleave="mouseLeave()"
-                                @mousemove="mouseMove($event)"
-                                @touchstart="touchStart($event)"
-                                @touchmove="touchMove($event)"
-                                @touchend="touchEnd()">
+                        <img id="main-product-image" x-ref="mainImage" :src="getSelectedImage()" :alt="product.name" class="w-full h-80 md:h-96 object-contain" :style="imgStyle" @error="handleImageError($event)" @mouseenter="mouseEnter($event)" @mouseleave="mouseLeave()" @mousemove="mouseMove($event)" @touchstart="touchStart($event)" @touchmove="touchMove($event)" @touchend="touchEnd()">
                     </div>
-
                     <!-- Image Thumbnails - UPDATED FOR BETTER SCROLLING AND CONSISTENT DIMENSIONS -->
                     <div class="relative" x-show="hasThumbnails()">
                         <div class="flex overflow-x-auto space-x-2 py-2 hide-scrollbar" x-ref="thumbnailsContainer" @scroll="checkScrollPosition()">
                             <!-- Product Images Thumbnails -->
                             <template x-for="(image, index) in product.images || []" :key="'img-'+index">
-                                <div
-                                        @click="selectImage(image)"
-                                        class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
-                                        :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'">
-                                    <img
-                                            :src="image"
-                                            :alt="`${product.name} - Thumbnail ${index + 1}`"
-                                            class="w-full h-full object-cover"
-                                            @error="handleImageError($event)">
+                                <div @click="selectImage(image)" class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden" :class="selectedImage === image ? 'border-primary' : 'border-transparent hover:border-zinc-300'">
+                                    <img :src="image" :alt="`${product.name} - Thumbnail ${index + 1}`" class="w-full h-full object-cover" @error="handleImageError($event)">
                                 </div>
                             </template>
-
                             <!-- Option Images Thumbnails -->
                             <template x-if="product.option_images">
                                 <template x-for="(options, optionType) in product.option_images" :key="optionType">
                                     <template x-for="(images, optionValue) in options" :key="optionValue">
                                         <template x-for="(image, index) in images" :key="'opt-'+optionType+'-'+optionValue+'-'+index">
-                                            <div
-                                                    @click="selectImage(image)"
-                                                    class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
-                                                    :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
-                                                    data-thumbnail-type="option"
-                                                    :data-option-type="optionType"
-                                                    :data-option-value="optionValue">
-                                                <img
-                                                        :src="image"
-                                                        :alt="`${product.name} - ${optionType}: ${optionValue}`"
-                                                        class="w-full h-full object-cover"
-                                                        @error="handleImageError($event)">
+                                            <div @click="selectImage(image)" class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden" :class="selectedImage === image ? 'border-primary' : 'border-transparent hover:border-zinc-300'" data-thumbnail-type="option" :data-option-type="optionType" :data-option-value="optionValue">
+                                                <img :src="image" :alt="`${product.name} - ${optionType}: ${optionValue}`" class="w-full h-full object-cover" @error="handleImageError($event)">
                                             </div>
                                         </template>
                                     </template>
                                 </template>
                             </template>
-
                             <!-- Variant Images Thumbnails -->
                             <template x-if="product.variant_images">
                                 <template x-for="(imageData, variantKey) in product.variant_images" :key="variantKey">
                                     <template x-if="Array.isArray(imageData)">
                                         <template x-for="(image, index) in imageData" :key="'var-'+variantKey+'-'+index">
-                                            <div
-                                                    @click="selectImage(image)"
-                                                    class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
-                                                    :class="selectedImage === image ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
-                                                    data-thumbnail-type="variant"
-                                                    :data-variant-key="variantKey">
-                                                <img
-                                                        :src="image"
-                                                        :alt="`${product.name} - ${formatVariantName(variantKey)}`"
-                                                        class="w-full h-full object-cover"
-                                                        @error="handleImageError($event)">
+                                            <div @click="selectImage(image)" class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden" :class="selectedImage === image ? 'border-primary' : 'border-transparent hover:border-zinc-300'" data-thumbnail-type="variant" :data-variant-key="variantKey">
+                                                <img :src="image" :alt="`${product.name} - ${formatVariantName(variantKey)}`" class="w-full h-full object-cover" @error="handleImageError($event)">
                                             </div>
                                         </template>
                                     </template>
                                     <template x-if="!Array.isArray(imageData)">
-                                        <div
-                                                @click="selectImage(imageData)"
-                                                class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden"
-                                                :class="selectedImage === imageData ? 'border-pink-500' : 'border-transparent hover:border-zinc-300'"
-                                                data-thumbnail-type="variant"
-                                                :data-variant-key="variantKey">
-                                            <img
-                                                    :src="imageData"
-                                                    :alt="`${product.name} - ${formatVariantName(variantKey)}`"
-                                                    class="w-full h-full object-cover"
-                                                    @error="handleImageError($event)">
+                                        <div @click="selectImage(imageData)" class="flex-shrink-0 w-20 h-20 cursor-pointer border-2 rounded-lg overflow-hidden" :class="selectedImage === imageData ? 'border-primary' : 'border-transparent hover:border-zinc-300'" data-thumbnail-type="variant" :data-variant-key="variantKey">
+                                            <img :src="imageData" :alt="`${product.name} - ${formatVariantName(variantKey)}`" class="w-full h-full object-cover" @error="handleImageError($event)">
                                         </div>
                                     </template>
                                 </template>
@@ -199,90 +128,53 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Product Details -->
                 <div class="lg:col-span-2 p-6 md:p-8">
                     <!-- Product Status -->
                     <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                    x-show="product.isNew"
-                                    id="product-status-new"
-                                    class="inline-block bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded font-medium">
+                            <span x-show="product.isNew" id="product-status-new" class="inline-block bg-primary-light text-primary-text text-xs px-2 py-1 rounded font-medium">
                                 New Arrival
                             </span>
-                        <span
-                                x-show="product.isOnSale"
-                                id="product-status-sale"
-                                class="inline-block bg-emerald-100 text-emerald-700 text-xs px-2 py-1 rounded font-medium">
+                        <span x-show="product.isOnSale" id="product-status-sale" class="inline-block bg-emerald-100 text-emerald-700 text-xs px-2 py-1 rounded font-medium">
                                 On Sale
                             </span>
                     </div>
-
                     <!-- Product Title and Brand -->
                     <h1 id="product-title" class="text-3xl font-bold mb-2" x-text="product.name"></h1>
                     <p id="product-brand" class="text-zinc-600 mb-4" x-text="product.brand || 'LuxuryByJulie'"></p>
-
                     <!-- Rating -->
                     <div class="flex items-center gap-1 mb-6" x-show="product.rating">
                         <div class="flex">
                             <template x-for="i in 5" :key="i">
-                                <svg class="h-5 w-5" :class="i <= Math.floor(product.rating || 0) ? 'text-yellow-400' : 'text-zinc-300'"
-                                     viewBox="0 0 24 24"
-                                     :fill="i <= Math.floor(product.rating || 0) ? 'currentColor' : 'none'"
-                                     stroke="currentColor"
-                                     stroke-width="1.5"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
+                                <svg class="h-5 w-5" :class="i <= Math.floor(product.rating || 0) ? 'text-yellow-400' : 'text-zinc-300'" viewBox="0 0 24 24" :fill="i <= Math.floor(product.rating || 0) ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                                 </svg>
                             </template>
                         </div>
                         <span class="text-zinc-600" x-text="`${product.rating} (${product.reviews_count || 0} reviews)`"></span>
                     </div>
-
                     <!-- Price -->
                     <div class="mb-6">
                         <div class="flex items-center gap-2">
-                                <span
-                                        id="product-price"
-                                        class="text-3xl font-bold"
-                                        x-text="formatPrice(getVariantPrice())">
+                                <span id="product-price" class="text-3xl font-bold" x-text="formatPrice(getVariantPrice())">
                                 </span>
-                            <span
-                                    id="product-original-price"
-                                    x-show="product.salePrice && product.base_price && product.salePrice < product.base_price"
-                                    class="text-xl text-zinc-400 line-through"
-                                    x-text="formatPrice(product.base_price)">
+                            <span id="product-original-price" x-show="product.salePrice && product.base_price && product.salePrice < product.base_price" class="text-xl text-zinc-400 line-through" x-text="formatPrice(product.base_price)">
                                 </span>
-                            <span
-                                    id="product-discount"
-                                    x-show="product.salePrice && product.base_price && product.salePrice < product.base_price"
-                                    class="bg-emerald-100 text-emerald-700 text-sm px-2 py-1 rounded-md"
-                                    x-text="`Save ${Math.round((1 - product.salePrice / product.base_price) * 100)}%`">
+                            <span id="product-discount" x-show="product.salePrice && product.base_price && product.salePrice < product.base_price" class="bg-emerald-100 text-emerald-700 text-sm px-2 py-1 rounded-md" x-text="`Save ${Math.round((1 - product.salePrice / product.base_price) * 100)}%`">
                                 </span>
                         </div>
                         <p id="product-shipping" class="text-zinc-500 text-sm mt-1" x-show="getVariantShippingCost() === 0">Free Shipping</p>
                     </div>
-
                     <!-- Product Options -->
                     <div class="mb-8" x-show="product.options && Object.keys(product.options).length > 0">
                         <template x-for="(values, option) in product.options" :key="option">
                             <div class="mb-6">
                                 <label :for="`option-${option}`" class="block font-medium mb-2 capitalize" x-text="formatOptionName(option)"></label>
-
                                 <!-- Color Options (Special Rendering) -->
                                 <template x-if="option.toLowerCase().includes('color')">
                                     <div class="flex flex-wrap gap-2">
                                         <template x-for="value in values" :key="value">
-                                            <button
-                                                    type="button"
-                                                    :id="`option-${option}-${value}`"
-                                                    class="w-8 h-8 rounded-full border-2 relative flex items-center justify-center"
-                                                    :class="selectedOptions[option] === value ? 'border-zinc-800' : 'border-transparent hover:border-zinc-300'"
-                                                    :style="`background-color: ${value.toLowerCase()};`"
-                                                    :disabled="!isOptionValueAvailable(option, value)"
-                                                    :title="value"
-                                                    @click="selectOption(option, value)">
+                                            <button type="button" :id="`option-${option}-${value}`" class="w-8 h-8 rounded-full border-2 relative flex items-center justify-center" :class="selectedOptions[option] === value ? 'border-zinc-800' : 'border-transparent hover:border-zinc-300'" :style="`background-color: ${value.toLowerCase()};`" :disabled="!isOptionValueAvailable(option, value)" :title="value" @click="selectOption(option, value)">
                                                     <span x-show="selectedOptions[option] === value" class="text-white">
                                                         <svg class="h-4 w-4" style="filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.5));">
                                                             <use xlink:href="#icon-check"></use>
@@ -292,22 +184,11 @@
                                         </template>
                                     </div>
                                 </template>
-
                                 <!-- Size/Standard Options -->
                                 <template x-if="!option.toLowerCase().includes('color')">
                                     <div class="flex flex-wrap gap-2">
                                         <template x-for="value in values" :key="value">
-                                            <button
-                                                    type="button"
-                                                    :id="`option-${option}-${value}`"
-                                                    class="min-w-[4rem] px-4 py-2 border-2 rounded-md text-center"
-                                                    :class="selectedOptions[option] === value
-                                                        ? 'bg-pink-500 text-white border-pink-500'
-                                                        : 'border-zinc-200 hover:border-pink-300'"
-                                                    :disabled="!isOptionValueAvailable(option, value)"
-                                                    :class="{ 'opacity-50 cursor-not-allowed': !isOptionValueAvailable(option, value) }"
-                                                    @click="selectOption(option, value)"
-                                                    x-text="value">
+                                            <button type="button" :id="`option-${option}-${value}`" class="min-w-[4rem] px-4 py-2 border-2 rounded-md text-center" :class="selectedOptions[option] === value ? 'bg-primary text-white border-primary' : 'border-zinc-200 hover:border-primary-focus'" :disabled="!isOptionValueAvailable(option, value)" :class="{ 'opacity-50 cursor-not-allowed': !isOptionValueAvailable(option, value) }" @click="selectOption(option, value)" x-text="value">
                                             </button>
                                         </template>
                                     </div>
@@ -315,67 +196,35 @@
                             </div>
                         </template>
                     </div>
-
                     <!-- Stock Status -->
                     <div class="mb-6">
-                        <p
-                                id="product-stock-status"
-                                class="font-medium"
-                                :class="isVariantInStock() ? 'text-emerald-600' : 'text-red-500'"
-                                x-text="isVariantInStock() ? `In Stock: ${getVariantStock()} available` : 'Out of Stock'">
+                        <p id="product-stock-status" class="font-medium" :class="isVariantInStock() ? 'text-emerald-600' : 'text-red-500'" x-text="isVariantInStock() ? `In Stock: ${getVariantStock()} available` : 'Out of Stock'">
                         </p>
                     </div>
-
                     <!-- Quantity Selector -->
                     <div class="mb-8" x-show="isVariantInStock()">
                         <label for="quantity" id="quantity-label" class="block font-medium mb-2">Quantity</label>
                         <div class="flex items-center w-full max-w-[180px]">
-                            <button
-                                    id="decrease-quantity"
-                                    type="button"
-                                    class="flex-shrink-0 w-10 h-10 bg-zinc-100 flex items-center justify-center rounded-l-lg hover:bg-zinc-200 disabled:opacity-50"
-                                    :disabled="quantity <= 1"
-                                    @click="decreaseQuantity()">
+                            <button id="decrease-quantity" type="button" class="flex-shrink-0 w-10 h-10 bg-zinc-100 flex items-center justify-center rounded-l-lg hover:bg-zinc-200 disabled:opacity-50" :disabled="quantity <= 1" @click="decreaseQuantity()">
                                 <svg class="h-4 w-4">
                                     <use xlink:href="#icon-minus"></use>
                                 </svg>
                             </button>
-                            <input
-                                    id="quantity-input"
-                                    type="number"
-                                    min="1"
-                                    :max="getVariantStock()"
-                                    class="flex-1 h-10 border-y border-zinc-200 text-center focus:outline-none focus:ring-0 focus:border-zinc-300"
-                                    x-model.number="quantity">
-                            <button
-                                    id="increase-quantity"
-                                    type="button"
-                                    class="flex-shrink-0 w-10 h-10 bg-zinc-100 flex items-center justify-center rounded-r-lg hover:bg-zinc-200 disabled:opacity-50"
-                                    :disabled="quantity >= getVariantStock()"
-                                    @click="increaseQuantity()">
+                            <input id="quantity-input" type="number" min="1" :max="getVariantStock()" class="flex-1 h-10 border-y border-zinc-200 text-center focus:outline-none focus:ring-0 focus:border-zinc-300" x-model.number="quantity">
+                            <button id="increase-quantity" type="button" class="flex-shrink-0 w-10 h-10 bg-zinc-100 flex items-center justify-center rounded-r-lg hover:bg-zinc-200 disabled:opacity-50" :disabled="quantity >= getVariantStock()" @click="increaseQuantity()">
                                 <svg class="h-4 w-4">
                                     <use xlink:href="#icon-plus"></use>
                                 </svg>
                             </button>
                         </div>
                     </div>
-
                     <!-- Add to Cart & Inquire Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <button
-                                id="add-to-cart-button"
-                                class="flex-1 bg-pink-500 text-white py-3 px-8 rounded-lg hover:bg-pink-600 transition-colors"
-                                @click="addToCart()"
-                                :disabled="!isVariantInStock()"
-                                :class="{ 'opacity-50 cursor-not-allowed': !isVariantInStock() }">
+                        <button id="add-to-cart-button" class="flex-1 bg-primary text-white py-3 px-8 rounded-lg hover:bg-primary-hover transition-colors" @click="addToCart()" :disabled="!isVariantInStock()" :class="{ 'opacity-50 cursor-not-allowed': !isVariantInStock() }">
                             Add to Cart
                         </button>
-
                         <div x-data="whatsappInquiry({ phoneNumber: '96181874453' })">
-                            <button
-                                    id="inquire-button"
-                                    class="flex-1 w-full bg-green-500 text-white py-3 px-8 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
-                                    @click="inquireAboutProduct()">
+                            <button id="inquire-button" class="flex-1 w-full bg-green-500 text-white py-3 px-8 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2" @click="inquireAboutProduct()">
                                 <svg class="h-5 w-5">
                                     <use xlink:href="#icon-whatsapp"></use>
                                 </svg>
@@ -383,14 +232,13 @@
                             </button>
                         </div>
                     </div>
-
                     <!-- Product Features -->
                     <div class="mb-6 border-t border-zinc-100 pt-6" x-show="product.features && Object.keys(product.features).length > 0">
                         <h3 id="features-heading" class="font-semibold mb-4">Product Features</h3>
                         <ul class="space-y-2">
                             <template x-for="(value, key) in product.features" :key="key">
                                 <li class="flex items-start gap-2">
-                                        <span class="text-pink-500 flex-shrink-0 mt-1">
+                                        <span class="text-primary flex-shrink-0 mt-1">
                                             <svg class="h-4 w-4">
                                                 <use xlink:href="#icon-check"></use>
                                             </svg>
@@ -403,12 +251,11 @@
                             </template>
                         </ul>
                     </div>
-
                     <!-- Shipping & Returns -->
                     <div class="border-t border-zinc-100 pt-6">
                         <div class="flex flex-col sm:flex-row gap-6">
                             <div class="flex items-center gap-3">
-                                <div class="flex-shrink-0 w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center text-pink-500">
+                                <div class="flex-shrink-0 w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center text-primary">
                                     <svg class="h-5 w-5">
                                         <use xlink:href="#icon-truck"></use>
                                     </svg>
@@ -418,9 +265,8 @@
                                     <p id="shipping-text" class="text-sm text-zinc-500">2-5 business days</p>
                                 </div>
                             </div>
-
                             <div class="flex items-center gap-3">
-                                <div class="flex-shrink-0 w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center text-pink-500">
+                                <div class="flex-shrink-0 w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center text-primary">
                                     <svg class="h-5 w-5">
                                         <use xlink:href="#icon-box"></use>
                                     </svg>
@@ -434,38 +280,23 @@
                     </div>
                 </div>
             </div>
-
             <!-- Product Tabs -->
             <div class="border-t border-zinc-100 mt-8">
                 <div class="flex overflow-x-auto border-b border-zinc-100">
-                    <button
-                            id="tab-description"
-                            class="flex-shrink-0 px-6 py-4 font-medium text-sm"
-                            :class="activeTab === 'description' ? 'text-pink-500 border-b-2 border-pink-500' : 'text-zinc-600 hover:text-zinc-900'"
-                            @click="activeTab = 'description'">
+                    <button id="tab-description" class="flex-shrink-0 px-6 py-4 font-medium text-sm" :class="activeTab === 'description' ? 'text-primary border-b-2 border-primary' : 'text-zinc-600 hover:text-zinc-900'" @click="activeTab = 'description'">
                         Description
                     </button>
-                    <button
-                            id="tab-specifications"
-                            class="flex-shrink-0 px-6 py-4 font-medium text-sm"
-                            :class="activeTab === 'specifications' ? 'text-pink-500 border-b-2 border-pink-500' : 'text-zinc-600 hover:text-zinc-900'"
-                            @click="activeTab = 'specifications'">
+                    <button id="tab-specifications" class="flex-shrink-0 px-6 py-4 font-medium text-sm" :class="activeTab === 'specifications' ? 'text-primary border-b-2 border-primary' : 'text-zinc-600 hover:text-zinc-900'" @click="activeTab = 'specifications'">
                         Specifications
                     </button>
-                    <button
-                            id="tab-shipping"
-                            class="flex-shrink-0 px-6 py-4 font-medium text-sm"
-                            :class="activeTab === 'shipping' ? 'text-pink-500 border-b-2 border-pink-500' : 'text-zinc-600 hover:text-zinc-900'"
-                            @click="activeTab = 'shipping'">
+                    <button id="tab-shipping" class="flex-shrink-0 px-6 py-4 font-medium text-sm" :class="activeTab === 'shipping' ? 'text-primary border-b-2 border-primary' : 'text-zinc-600 hover:text-zinc-900'" @click="activeTab = 'shipping'">
                         Shipping & Returns
                     </button>
                 </div>
-
                 <!-- Description Tab -->
                 <div x-show="activeTab === 'description'" class="p-6 md:p-8">
                     <div id="product-description" class="prose max-w-none" x-html="product.description || 'No description available'"></div>
                 </div>
-
                 <!-- Specifications Tab -->
                 <div x-show="activeTab === 'specifications'" class="p-6 md:p-8">
                     <table id="specifications-table" class="w-full text-left">
@@ -497,7 +328,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <!-- Shipping & Returns Tab -->
                 <div x-show="activeTab === 'shipping'" class="p-6 md:p-8">
                     <div id="shipping-returns-content" class="prose max-w-none">
@@ -508,9 +338,7 @@
                             <li><strong>Express Shipping:</strong> 1-2 business days, $9.99</li>
                             <li><strong>Free Shipping:</strong> Available on orders over $50, 5-7 business days</li>
                         </ul>
-
                         <p>International shipping is available for select countries. Please contact us via WhatsApp for international shipping rates and delivery times.</p>
-
                         <h3>Returns & Exchanges</h3>
                         <p>We want you to be completely satisfied with your purchase. If for any reason you're not happy with your order, we offer a hassle-free return policy:</p>
                         <ul>
@@ -518,31 +346,22 @@
                             <li>Items must be unworn, unwashed, and in original packaging with tags attached</li>
                             <li>Return shipping fees are the responsibility of the customer unless the item is defective or incorrect</li>
                         </ul>
-
                         <p>To initiate a return or exchange, please contact us via WhatsApp at +961 81 874 453.</p>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Related Products -->
-        <div class="mt-16"
-             x-data="relatedProducts({
-       productId: $store.productData.currentProduct?.id,
-       maxProducts: 4,
-       title: 'You May Also Like'
-     })">
+        <div class="mt-16" x-data="relatedProducts({ productId: $store.productData.currentProduct?.id, maxProducts: 4, title: 'You May Also Like' })">
             <h2 id="related-products-heading" class="text-2xl font-bold mb-8" x-text="title"></h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <template x-for="product in products" :key="product.id">
                     <article class="group bg-white rounded-xl overflow-hidden shadow-sm">
                         <a :href="'product.html?slug=' + product.slug">
                             <div class="overflow-hidden bg-zinc-100 relative h-60 flex items-center justify-center">
-                                <img :src="product.images[0]" :alt="product.name"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                     @error="$event.target.src = 'https://via.placeholder.com/400x500?text=No+Image'">
+                                <img :src="product.images[0]" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" @error="$event.target.src = 'https://via.placeholder.com/400x500?text=No+Image'">
                                 <div class="absolute top-3 left-3 flex flex-col gap-2">
-                                    <span x-show="product.isNew" class="bg-pink-500 text-white text-xs px-2 py-1 rounded">New</span>
+                                    <span x-show="product.isNew" class="bg-primary text-white text-xs px-2 py-1 rounded">New</span>
                                     <span x-show="product.isOnSale" class="bg-emerald-500 text-white text-xs px-2 py-1 rounded">Sale</span>
                                 </div>
                             </div>
@@ -554,16 +373,12 @@
                                     <p class="text-zinc-600" x-text="product.brand || 'YourBrand'"></p>
                                 </div>
                                 <div class="text-right">
-              <span x-show="product.salePrice" class="text-pink-500 font-bold"
-                    x-text="'$' + product.salePrice.toFixed(2)"></span>
-                                    <span x-show="product.salePrice" class="text-zinc-400 line-through text-sm ml-1"
-                                          x-text="'$' + product.base_price.toFixed(2)"></span>
-                                    <span x-show="!product.salePrice" class="text-lg font-bold"
-                                          x-text="'$' + (product.base_price || product.price).toFixed(2)"></span>
+                                    <span x-show="product.salePrice" class="text-primary font-bold" x-text="'$' + product.salePrice.toFixed(2)"></span>
+                                    <span x-show="product.salePrice" class="text-zinc-400 line-through text-sm ml-1" x-text="'$' + product.base_price.toFixed(2)"></span>
+                                    <span x-show="!product.salePrice" class="text-lg font-bold" x-text="'$' + (product.base_price || product.price).toFixed(2)"></span>
                                 </div>
                             </div>
-                            <a :href="'product.html?slug=' + product.slug"
-                               class="mt-2 block w-full text-center bg-zinc-100 py-2 rounded-lg hover:bg-zinc-200 transition-colors">
+                            <a :href="'product.html?slug=' + product.slug" class="mt-2 block w-full text-center bg-zinc-100 py-2 rounded-lg hover:bg-zinc-200 transition-colors">
                                 View Details
                             </a>
                         </div>
@@ -571,24 +386,12 @@
                 </template>
             </div>
         </div>
-
     </div>
-
     <!-- Cart notification -->
-    <div
-            x-cloak
-            class="fixed bottom-24 right-4 bg-black text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300"
-            x-show="$store.ui.cartNotificationVisible"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 translate-y-2"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 translate-y-2">
+    <div x-cloak class="fixed bottom-24 right-4 bg-black text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300" x-show="$store.ui.cartNotificationVisible" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-2">
         Item added to cart!
     </div>
 </main>
-
 <!-- Footer -->
 <div x-data="siteFooter" x-html="template"></div>
 <div x-data="floatingButtons" x-html="template"></div>

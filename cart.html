@@ -4,55 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart | LuxuryByJulie</title>
-
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- Tailwind Configuration -->
     <script src="js/tailwind.config.js"></script>
-
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/styles.css">
-
     <!-- Alpine.js via CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <!-- Load existing JavaScript files -->
     <script src="js/products.js?v=2"></script>
     <script src="js/categories.js?v=2"></script>
     <script src="js/app.js?v=2"></script>
     <script src="js/components.js?v=2"></script>
     <script src="js/cart-page.js?v=2"></script>
-
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 </head>
-
 <body class="bg-zinc-50" x-data="{ scrollTop: false }" @scroll.window="scrollTop = window.pageYOffset > 100">
 <!-- SVG Sprite Definitions -->
 <div x-data="svgSprites" x-html="template"></div>
-
 <!-- Navigation -->
 <div x-data="siteHeader({ activeLink: 'home' })" x-html="template"></div>
-
 <!-- Breadcrumb -->
 <div class="bg-white pt-28 pb-4 px-6 border-b border-zinc-100">
     <div class="max-w-6xl mx-auto">
         <div class="flex items-center space-x-2 text-sm text-zinc-500">
-            <a href="index.html" id="breadcrumb-home" class="hover:text-pink-500">Home</a>
+            <a href="index.html" id="breadcrumb-home" class="hover:text-primary">Home</a>
             <span>/</span>
             <span id="breadcrumb-cart" class="text-zinc-900">Shopping Cart</span>
         </div>
     </div>
 </div>
-
 <!-- Main Content -->
 <main class="py-12 px-6" x-data="cartPage">
     <div class="max-w-6xl mx-auto">
         <h1 id="page-title" class="text-4xl font-bold mb-2">Shopping Cart</h1>
         <p id="page-subtitle" class="text-zinc-600 mb-12" x-text="`You have ${$store.cart.getTotalItems()} item${$store.cart.getTotalItems() !== 1 ? 's' : ''} in your cart`"></p>
-
         <!-- Cart Content or Empty Cart Message -->
         <div x-show="$store.cart.items.length === 0" class="bg-white rounded-xl shadow-sm p-12 text-center">
             <div class="max-w-md mx-auto">
@@ -63,12 +51,11 @@
                 </div>
                 <h2 id="empty-cart-heading" class="text-2xl font-bold mb-4">Your cart is empty</h2>
                 <p id="empty-cart-message" class="text-zinc-600 mb-8">Looks like you haven't added any products to your cart yet.</p>
-                <a href="products.html" id="start-shopping-button" class="inline-block bg-pink-500 text-white px-8 py-3 rounded-lg hover:bg-pink-600 transition-colors">
+                <a href="products.html" id="start-shopping-button" class="inline-block bg-primary text-white px-8 py-3 rounded-lg hover:bg-primary-hover transition-colors">
                     Start Shopping
                 </a>
             </div>
         </div>
-
         <!-- Cart with Items -->
         <div x-show="$store.cart.items.length > 0" class="grid md:grid-cols-3 gap-8">
             <!-- Cart Items (Left Column) -->
@@ -81,7 +68,6 @@
                         <div class="md:col-span-2 text-center">Quantity</div>
                         <div class="md:col-span-2 text-right">Total</div>
                     </div>
-
                     <!-- Cart Items List -->
                     <div class="divide-y divide-zinc-100">
                         <template x-for="(item, index) in $store.cart.items" :key="item.id">
@@ -94,11 +80,9 @@
                                             <img :src="item.image" :alt="item.name" class="w-full h-full object-cover">
                                         </div>
                                     </div>
-
                                     <!-- Product Info -->
                                     <div class="col-span-3">
                                         <h3 x-text="item.name" class="font-semibold mb-1"></h3>
-
                                         <!-- Product Options -->
                                         <div x-show="Object.keys(item.options).length > 0" class="mb-2 text-sm text-zinc-500">
                                             <template x-for="(value, key) in item.options" :key="key">
@@ -108,52 +92,35 @@
                                                 </div>
                                             </template>
                                         </div>
-
                                         <!-- Price -->
                                         <div class="mb-2">
                                             <span class="text-zinc-500">Price: </span>
                                             <span x-text="formatPrice(item.price)"></span>
                                         </div>
-
                                         <!-- Quantity Controls -->
                                         <div class="flex items-center mb-2">
                                             <span class="text-zinc-500 mr-2">Qty: </span>
                                             <div class="flex items-center border border-zinc-200 rounded-md">
-                                                <button
-                                                        type="button"
-                                                        class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100"
-                                                        @click="$store.cart.updateItemQuantity(index, item.quantity - 1)">
+                                                <button type="button" class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100" @click="$store.cart.updateItemQuantity(index, item.quantity - 1)">
                                                     <svg class="h-3 w-3">
                                                         <use xlink:href="#icon-minus"></use>
                                                     </svg>
                                                 </button>
-                                                <input
-                                                        type="number"
-                                                        min="1"
-                                                        class="w-10 h-8 text-center border-none focus:ring-0 p-0 text-sm"
-                                                        :value="item.quantity"
-                                                        @change="$store.cart.updateItemQuantity(index, parseInt($event.target.value))">
-                                                <button
-                                                        type="button"
-                                                        class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100"
-                                                        @click="$store.cart.updateItemQuantity(index, item.quantity + 1)">
+                                                <input type="number" min="1" class="w-10 h-8 text-center border-none focus:ring-0 p-0 text-sm" :value="item.quantity" @change="$store.cart.updateItemQuantity(index, parseInt($event.target.value))">
+                                                <button type="button" class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100" @click="$store.cart.updateItemQuantity(index, item.quantity + 1)">
                                                     <svg class="h-3 w-3">
                                                         <use xlink:href="#icon-plus"></use>
                                                     </svg>
                                                 </button>
                                             </div>
                                         </div>
-
                                         <!-- Total & Remove -->
                                         <div class="flex justify-between items-center">
                                             <div>
                                                 <span class="text-zinc-500">Total: </span>
                                                 <span class="font-semibold" x-text="formatPrice(item.price * item.quantity)"></span>
                                             </div>
-                                            <button
-                                                    type="button"
-                                                    class="text-red-500 hover:text-red-600"
-                                                    @click="$store.cart.removeItem(index)">
+                                            <button type="button" class="text-red-500 hover:text-red-600" @click="$store.cart.removeItem(index)">
                                                 <svg class="h-5 w-5">
                                                     <use xlink:href="#icon-trash"></use>
                                                 </svg>
@@ -161,7 +128,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <!-- Desktop Layout -->
                                 <div class="hidden md:grid md:grid-cols-12 md:gap-6 md:items-center">
                                     <!-- Product -->
@@ -171,11 +137,9 @@
                                             <div class="w-20 h-20 flex-shrink-0 bg-zinc-100 rounded-lg overflow-hidden">
                                                 <img :src="item.image" :alt="item.name" class="w-full h-full object-cover">
                                             </div>
-
                                             <!-- Product Info -->
                                             <div>
                                                 <h3 x-text="item.name" class="font-semibold mb-1"></h3>
-
                                                 <!-- Product Options -->
                                                 <div x-show="Object.keys(item.options).length > 0" class="text-sm text-zinc-500">
                                                     <template x-for="(value, key) in item.options" :key="key">
@@ -188,45 +152,28 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- Price -->
                                     <div class="md:col-span-2 text-center" x-text="formatPrice(item.price)"></div>
-
                                     <!-- Quantity -->
                                     <div class="md:col-span-2 flex justify-center">
                                         <div class="flex items-center border border-zinc-200 rounded-md">
-                                            <button
-                                                    type="button"
-                                                    class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100"
-                                                    @click="$store.cart.updateItemQuantity(index, item.quantity - 1)">
+                                            <button type="button" class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100" @click="$store.cart.updateItemQuantity(index, item.quantity - 1)">
                                                 <svg class="h-3 w-3">
                                                     <use xlink:href="#icon-minus"></use>
                                                 </svg>
                                             </button>
-                                            <input
-                                                    type="number"
-                                                    min="1"
-                                                    class="w-10 h-8 text-center border-none focus:ring-0 p-0 text-sm"
-                                                    :value="item.quantity"
-                                                    @change="$store.cart.updateItemQuantity(index, parseInt($event.target.value))">
-                                            <button
-                                                    type="button"
-                                                    class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100"
-                                                    @click="$store.cart.updateItemQuantity(index, item.quantity + 1)">
+                                            <input type="number" min="1" class="w-10 h-8 text-center border-none focus:ring-0 p-0 text-sm" :value="item.quantity" @change="$store.cart.updateItemQuantity(index, parseInt($event.target.value))">
+                                            <button type="button" class="w-8 h-8 flex items-center justify-center hover:bg-zinc-100" @click="$store.cart.updateItemQuantity(index, item.quantity + 1)">
                                                 <svg class="h-3 w-3">
                                                     <use xlink:href="#icon-plus"></use>
                                                 </svg>
                                             </button>
                                         </div>
                                     </div>
-
                                     <!-- Total -->
                                     <div class="md:col-span-2 text-right flex justify-end items-center gap-4">
                                         <span class="font-semibold" x-text="formatPrice(item.price * item.quantity)"></span>
-                                        <button
-                                                type="button"
-                                                class="text-red-500 hover:text-red-600"
-                                                @click="$store.cart.removeItem(index)">
+                                        <button type="button" class="text-red-500 hover:text-red-600" @click="$store.cart.removeItem(index)">
                                             <svg class="h-5 w-5">
                                                 <use xlink:href="#icon-trash"></use>
                                             </svg>
@@ -236,54 +183,39 @@
                             </div>
                         </template>
                     </div>
-
                     <!-- Continue Shopping & Clear Cart -->
                     <div class="p-6 border-t border-zinc-100 flex flex-col sm:flex-row gap-4 justify-between">
-                        <a href="products.html" id="continue-shopping-button" class="inline-flex items-center justify-center text-zinc-600 hover:text-pink-500">
+                        <a href="products.html" id="continue-shopping-button" class="inline-flex items-center justify-center text-zinc-600 hover:text-primary">
                             <svg class="h-4 w-4 mr-2">
                                 <use xlink:href="#icon-chevron-left"></use>
                             </svg>
                             Continue Shopping
                         </a>
-                        <button
-                                id="clear-cart-button"
-                                class="text-red-500 hover:text-red-600"
-                                @click="$store.cart.clearCart()">
+                        <button id="clear-cart-button" class="text-red-500 hover:text-red-600" @click="$store.cart.clearCart()">
                             Clear Cart
                         </button>
                     </div>
                 </div>
             </div>
-
             <!-- Order Summary (Right Column) -->
             <div class="md:col-span-1">
                 <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24">
                     <h2 id="order-summary-heading" class="text-xl font-bold mb-6">Order Summary</h2>
-
                     <!-- Order Details -->
                     <div class="space-y-4 mb-6">
                         <div class="flex justify-between">
                             <span id="subtotal-label" class="text-zinc-600">Subtotal</span>
                             <span id="subtotal-value" class="font-medium" x-text="formatPrice($store.cart.getTotalPrice())"></span>
                         </div>
-
                         <!-- Shipping Method Selection -->
                         <div>
                             <label for="shipping-method" id="shipping-method-label" class="block text-zinc-600 mb-2">Shipping</label>
-                            <select
-                                    id="shipping-method-select"
-                                    x-model="shippingMethod"
-                                    @change="updateEstimatedDelivery()"
-                                    class="w-full bg-zinc-100 border-none rounded-lg px-4 py-2 focus:ring-pink-500">
+                            <select id="shipping-method-select" x-model="shippingMethod" @change="updateEstimatedDelivery()" class="w-full bg-zinc-100 border-none rounded-lg px-4 py-2 focus:ring-primary-focus">
                                 <option value="standard">Standard Shipping - $4.99</option>
                                 <option value="express">Express Shipping - $9.99</option>
-                                <option
-                                        value="free"
-                                        :disabled="!qualifiesForFreeShipping()"
-                                        x-text="qualifiesForFreeShipping() ? 'Free Shipping - $0.00' : 'Free Shipping (Orders over $50)'">
+                                <option value="free" :disabled="!qualifiesForFreeShipping()" x-text="qualifiesForFreeShipping() ? 'Free Shipping - $0.00' : 'Free Shipping (Orders over $50)'">
                                 </option>
                             </select>
-
                             <!-- Free Shipping Notice -->
                             <template x-if="!qualifiesForFreeShipping()">
                                 <p id="free-shipping-notice" class="text-sm text-zinc-500 mt-2">
@@ -293,26 +225,16 @@
                                 </p>
                             </template>
                         </div>
-
                         <!-- Coupon Code -->
                         <div>
                             <label for="coupon-code" id="coupon-code-label" class="block text-zinc-600 mb-2">Coupon Code</label>
                             <div class="flex gap-2">
-                                <input
-                                        type="text"
-                                        id="coupon-code-input"
-                                        x-model="couponCode"
-                                        placeholder="Enter coupon code"
-                                        class="flex-1 bg-zinc-100 border-none rounded-lg px-4 py-2 focus:ring-pink-500">
-                                <button
-                                        id="apply-coupon-button"
-                                        class="bg-zinc-200 text-zinc-700 px-4 rounded-lg hover:bg-zinc-300 transition-colors"
-                                        @click="applyCoupon()">
+                                <input type="text" id="coupon-code-input" x-model="couponCode" placeholder="Enter coupon code" class="flex-1 bg-zinc-100 border-none rounded-lg px-4 py-2 focus:ring-primary-focus">
+                                <button id="apply-coupon-button" class="bg-zinc-200 text-zinc-700 px-4 rounded-lg hover:bg-zinc-300 transition-colors" @click="applyCoupon()">
                                     Apply
                                 </button>
                             </div>
                         </div>
-
                         <!-- Estimated Delivery -->
                         <div class="pt-2">
                             <div class="flex items-start gap-2">
@@ -325,7 +247,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Total -->
                         <div class="border-t border-zinc-100 pt-4 mt-4">
                             <div class="flex justify-between text-lg">
@@ -334,23 +255,14 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Checkout Button (via WhatsApp) -->
-                    <div x-data="whatsappCheckout({
-                            phoneNumber: '96181874453',
-                            customGreeting: 'Hello LuxuryByJulie, I would like to place the following order:',
-                            customClosing: 'Please confirm my order details and provide payment instructions. Thank you!'
-                        })">
-                        <button
-                                id="checkout-button"
-                                class="w-full bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2 mb-4"
-                                @click="sendOrder()">
+                    <div x-data="whatsappCheckout({ phoneNumber: '96181874453', customGreeting: 'Hello LuxuryByJulie, I would like to place the following order:', customClosing: 'Please confirm my order details and provide payment instructions. Thank you!' })">
+                        <button id="checkout-button" class="w-full bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2 mb-4" @click="sendOrder()">
                             <svg class="h-5 w-5">
                                 <use xlink:href="#icon-whatsapp"></use>
                             </svg>
                             Checkout via WhatsApp
                         </button>
-
                         <p id="checkout-notice" class="text-sm text-zinc-500 text-center">
                             We will contact you on WhatsApp to confirm your order and arrange for payment and delivery.
                         </p>
@@ -360,10 +272,8 @@
         </div>
     </div>
 </main>
-
 <!-- Footer -->
 <div x-data="siteFooter" x-html="template"></div>
-
 <div x-data="floatingButtons" x-html="template"></div>
 </body>
 </html>

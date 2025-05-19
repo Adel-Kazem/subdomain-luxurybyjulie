@@ -1,6 +1,7 @@
 <?php
 // Configuration
-$componentsDirectory = ''; // Relative path within the repository
+$componentsDirectory = 'C:\xampp\htdocs\subdomain-luxurybyjulie\js'; // Relative path within the repository
+//$componentsDirectory = ''; // Relative path within the repository
 $outputFile = 'Components_content.txt';
 
 // Files to exclude
@@ -21,8 +22,13 @@ $filteredComponentPaths = array_filter($componentPaths, function($path) use ($ex
 
 // Add additional files manually
 $additionalFiles = [
+//    'C:\xampp\htdocs\subdomain-luxurybyjulie\product.html',
+    'C:\xampp\htdocs\subdomain-luxurybyjulie\index.html',
+    'C:\xampp\htdocs\subdomain-luxurybyjulie\cart.html',
+    'C:\xampp\htdocs\subdomain-luxurybyjulie\products.html',
     'C:\xampp\htdocs\subdomain-luxurybyjulie\product.html',
-    'C:\xampp\htdocs\subdomain-luxurybyjulie\js\components.js',
+    'C:\xampp\htdocs\subdomain-luxurybyjulie\css\styles.css',
+//    'C:\xampp\htdocs\subdomain-luxurybyjulie\js\components.js',
 
     // Your additional files here
 ];

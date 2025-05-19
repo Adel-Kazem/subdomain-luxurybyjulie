@@ -1,12 +1,37 @@
-/* Custom styles for LuxuryByJulie */
+/* styles.css */
 
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Raleway:wght@300;500&family=Syne:wght@400;500;600;700;800&display=swap');
 
+/* CSS Variables for Theme - Can be used alongside Tailwind colors */
+:root {
+    /* Primary Colors (Oily Black) */
+    --color-primary: #000000;         /* Pure black */
+    --color-primary-hover: #1a1a1a;   /* Slightly lighter black */
+    --color-primary-light: #111111;   /* Dark gray */
+    --color-primary-focus: #333333;   /* Medium gray */
+    --color-primary-text: #ffffff;    /* White text for dark backgrounds */
+
+    /* Accent Colors (kept green for WhatsApp and notification elements) */
+    --color-accent: #059669;          /* emerald-600 */
+    --color-accent-light: #d1fae5;    /* emerald-100 */
+
+    /* Neutral Colors */
+    --color-neutral-50: #fafafa;      /* zinc-50 */
+    --color-neutral-100: #f4f4f5;     /* zinc-100 */
+    --color-neutral-200: #e4e4e7;     /* zinc-200 */
+    --color-neutral-500: #71717a;     /* zinc-500 */
+    --color-neutral-600: #52525b;     /* zinc-600 */
+    --color-neutral-900: #18181b;     /* zinc-900 */
+}
+
 /* For the brush text style with underline effect */
 .brush-text {
     position: relative;
+    /* Use the CSS variable instead of hard-coded color */
+    color: var(--color-primary);
 }
+
 .brush-text::after {
     content: '';
     position: absolute;
@@ -29,7 +54,71 @@ body {
 
 /* Custom gradient background */
 .custom-gradient {
-    background: linear-gradient(135deg, #f9a8d4 0%, #d8b4fe 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+}
+
+/* Hide scrollbar but maintain functionality */
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Zoom functionality for product images */
+.zoom-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.zoom-container img {
+    transition: transform 0.3s ease;
+}
+
+/* Animation for floating buttons */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Custom utility classes */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Custom shimmer effect for loading states */
+.shimmer {
+    background: linear-gradient(90deg,
+    rgba(var(--color-primary-light), 0.1) 0%,
+    rgba(var(--color-primary-light), 0.2) 50%,
+    rgba(var(--color-primary-light), 0.1) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }
 
 /* Animation for fade-in effect */
@@ -48,14 +137,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: var(--color-neutral-100);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: var(--color-neutral-500);
     border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: var(--color-neutral-600);
 }
