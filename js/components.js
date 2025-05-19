@@ -172,29 +172,30 @@ document.addEventListener('alpine:init', () => {
     });
 
     // WhatsApp Button & Go Up Button Component
+// WhatsApp Button & Go Up Button Component
     Alpine.data('floatingButtons', () => {
         return {
             template: `
-                <!-- WhatsApp Button -->
-                <a href="#" id="whatsapp-button" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors z-40" @click.prevent="$store.ui.openWhatsApp('Hello, I have a question about your products.')" >
-                    <svg class="h-6 w-6">
-                        <use xlink:href="#icon-whatsapp"></use>
-                    </svg>
-                </a>
-                
-                <!-- Go Up Button -->
-                <button id="go-up-button" class="fixed bottom-6 left-6 bg-primary-light text-white p-4 rounded-full shadow-lg hover:bg-primary-hover transition-colors z-40" x-show="scrollTop" @click="$store.ui.scrollToTop()"
-                    x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 translate-y-4"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-300"
-                    x-transition:leave-start="opacity-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 translate-y-4" >
-                    <svg class="h-6 w-6">
-                        <use xlink:href="#icon-arrow-up"></use>
-                    </svg>
-                </button>
-            `
+            <!-- WhatsApp Button -->
+            <a href="#" id="whatsapp-button" class="fixed bottom-4 right-4 md:bottom-6 md:right-6 bg-green-500 text-white p-2 md:p-3 rounded-full shadow-lg hover:bg-green-600 transition-colors z-40" @click.prevent="$store.ui.openWhatsApp('Hello, I have a question about your products.')" >
+                <svg class="h-5 w-5 md:h-6 md:w-6">
+                    <use xlink:href="#icon-whatsapp"></use>
+                </svg>
+            </a>
+            
+            <!-- Go Up Button -->
+            <button id="go-up-button" class="fixed bottom-4 left-4 md:bottom-6 md:left-6 bg-primary-light text-white p-2 md:p-3 rounded-full shadow-lg hover:bg-primary-hover transition-colors z-40" x-show="scrollTop" @click="$store.ui.scrollToTop()"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 translate-y-4" >
+                <svg class="h-5 w-5 md:h-6 md:w-6">
+                    <use xlink:href="#icon-arrow-up"></use>
+                </svg>
+            </button>
+        `
         };
     });
 });
